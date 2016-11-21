@@ -1,11 +1,14 @@
 from pecan import rest
 from wsme import types as wtypes
 import wsmeext.pecan as wsme_pecan
-from pecan import expose
+from leaguer.api import expose
+from leaguer.api.controllers.v1 import controller as v1
+
 
 class RootController(rest.RestController):
 
-    #@wsme_pecan.wsexpose(wtypes.text)
-    @expose('json')
+    v1 = v1.V1Controller()
+
+    @expose.expose(wtypes.text)
     def get(self):
         return "hello world!"
