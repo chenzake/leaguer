@@ -1,6 +1,7 @@
 import pecan
 
-from leagure.api import config
+from leaguer.api import config 
+from leaguer.api import hooks
 
 
 def get_config():
@@ -10,11 +11,13 @@ def get_config():
 
 def setup_app():
 
-    config = get_config()
-    app_conf = dict(config.app)
+    app_config = get_config()
+    app_hooks = [hooks.DBHook()]
+    app_conf = dict(app_config.app)
     app = pecan.make_app(
         app_conf.pop('root'),
-        logging=getattr(config, 'logging', {}),
+        logging=getattr(app_config, 'logging', {}),
+        hooks=app_hooks
         **app_conf
         )
     return app

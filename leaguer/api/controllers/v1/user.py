@@ -2,6 +2,7 @@
 
 import pecan
 from pecan import rest
+from pecan import request
 from wsme import types as wtypes
 from leaguer.api import expose
 from leaguer.db import session
@@ -26,7 +27,7 @@ class UserController(rest.RestController):
 
     @expose.expose(User)
     def get(self):
-        user = session.query(db_user).filter_by(id=self.user_id).one()
+        user = request.db_conn.get_user(self.user_id)
         return User(**user.as_dict())
 
 
@@ -38,7 +39,8 @@ class UsersController(rest.RestController):
 
     @expose.expose(Users)
     def get(self):
-        users = session.query(db_user).all()
+        db_conn = request.db_conn
+        users = db_conn.list_users()
         user_list = []
         for user in users:
             u = User()
