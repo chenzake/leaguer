@@ -5,8 +5,8 @@ from pecan import rest
 from pecan import request
 from wsme import types as wtypes
 from leaguer.api import expose
-from leaguer.db import session
-from leaguer.db import User as db_user
+# from leaguer.db import session
+# from leaguer.db import User as db_user
 
 
 class User(wtypes.Base):

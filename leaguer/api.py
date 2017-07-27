@@ -1,5 +1,5 @@
 from wsgiref import simple_server
-from leagure.api import app
+from leaguer.api import app
 
 
 def main():

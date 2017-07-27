@@ -12,12 +12,15 @@ def get_config():
 def setup_app():
 
     app_config = get_config()
+    
     app_hooks = [hooks.DBHook()]
+
     app_conf = dict(app_config.app)
+    
     app = pecan.make_app(
         app_conf.pop('root'),
         logging=getattr(app_config, 'logging', {}),
-        hooks=app_hooks
+        hooks=app_hooks,
         **app_conf
         )
     return app
