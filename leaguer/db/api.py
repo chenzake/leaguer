@@ -14,7 +14,7 @@ def get_engine():
     if _ENGINE is not None:
         return _ENGINE
 
-    _ENGINE = create_engine('sqlite://')
+    _ENGINE = create_engine('sqlite:///./leaguer.db')
     db_models.Base.metadata.create_all(_ENGINE)
     return _ENGINE
 
@@ -55,7 +55,6 @@ class Connection(object):
         session = get_session()
         query = session.query(db_models.User)
         users = query.all()
-
         return users
 
     def update_user(self, user):
@@ -63,3 +62,40 @@ class Connection(object):
 
     def delete_user(self, user):
         pass
+
+    def add_user(self, **kwargs):
+        user = db_models.User(**kwargs)
+        session = get_session()
+        session.add(user)
+        session.commit()
+        return "ok"
+
+    def add_wares(self, wares):
+        """
+
+        :param wares: list of ware of an tunple
+        :return:
+        """
+        session = get_session()
+        new_wares = []
+        for ware in wares:
+            new_ware = db_models.Wares(ware)
+            new_wares.append(new_ware)
+
+        try:
+            session.add_all(new_wares)
+            session.commit()
+        except:
+            session.rollback()
+            return "failed"
+        return "ok"
+
+    def get_ware(self, ware_id):
+        query = get_session().query(db_models.Wares).filter_by(id=ware_id)
+        try:
+            ware = query.one()
+        except exc.NoResultFound:
+            return "No ware found "
+        return ware
+
+    # def sale_ware(self, ware_id):

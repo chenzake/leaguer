@@ -25,7 +25,6 @@ def upgrade():
         sa.Column('numbers', sa.Integer),
         sa.Column('address', sa.String(120)),
         sa.Column('phonenumber', sa.String(120)),
-        sa.Column('money', sa.String(12))
         )
 
 def downgrade():
